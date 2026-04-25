@@ -2,14 +2,12 @@
 # -------- GEMINI REPORT --------
 import os
 from dotenv import load_dotenv
-import google.generativeai as genai
+from google import genai   # ✅ correct import
 
 load_dotenv()
 
-# client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-model = genai.GenerativeModel("models/gemini-2.5-flash")
 
 def try_generate_report(
     official_description: str,
@@ -23,7 +21,7 @@ You are an AI content moderation assistant.
 
 A protected image (footprint) is being compared against a user's uploaded post.
 
-Details:-
+Details:
 - Protected content: {official_description}
 - Matched content (image URL): {match_path}
 - Similarity score: {similarity:.2f}
@@ -33,11 +31,10 @@ Explain in 2-3 lines whether this is likely misuse or duplication.
 Keep it concise and professional.
 """
 
-        # response = client.models.generate_content(
-        #     model="models/gemini-2.5-flash",
-        #     contents=prompt,
-        # )
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model="models/gemini-2.5-flash",
+            contents=prompt,
+        )
 
         return response.text
 

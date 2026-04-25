@@ -1,10 +1,10 @@
 # from pathlib import Path
-from embedding import ImageEmbedder
+from embedding import ClipEmbedder
 # from guardianai.pipeline import run_check
 # from guardianai.gemini_report import try_generate_report
 
 # Load model ONCE (very important)
-embedder = ImageEmbedder.create()
+embedder = ClipEmbedder.create()
 
 
 # def run_detection(media_path: Path, ig_user: str, threshold: float):

@@ -1,0 +1,263 @@
+================================================================
+                     GUARDIANAI - SETUP GUIDE
+================================================================
+
+
+================================================================
+  PART 1: FRONTEND SETUP (Next.js)
+================================================================
+
+STEP 1 — Install Node.js
+----------------------------------------------------------------
+1. Go to https://nodejs.org
+2. Download and install the LTS version
+3. Verify installation:
+      node -v
+      npm -v
+
+
+STEP 2 — Install Frontend Dependencies
+----------------------------------------------------------------
+Navigate to the frontend folder and install packages:
+
+      cd frontend
+      npm install
+
+
+STEP 3 — Set Up Firebase Project
+----------------------------------------------------------------
+1. Go to https://console.firebase.google.com
+2. Click "Add project" and follow the setup steps
+3. Once created, go to your project dashboard
+
+Enable Firestore:
+   - In the left sidebar, click "Firestore Database"
+   - Click "Create database"
+   - Choose "Start in test mode" (for development)
+   - Select a region and click "Enable"
+
+Enable Authentication:
+   - In the left sidebar, click "Authentication"
+   - Click "Get started"
+   - Go to the "Sign-in method" tab
+   - Click "Email/Password"
+   - Toggle "Enable" ON and click "Save"
+
+
+STEP 4 — Get Firebase Keys
+----------------------------------------------------------------
+1. In Firebase Console, click the gear icon ⚙ → "Project settings"
+2. Scroll down to "Your apps" section
+3. Click the "</>" (Web) icon to register a web app
+4. Give it a nickname and click "Register app"
+5. You will see a config object like this:
+
+      const firebaseConfig = {
+        apiKey: "...",
+        authDomain: "...",
+        projectId: "...",
+        messagingSenderId: "...",
+        appId: "...",
+        measurementId: "..."
+      };
+
+   Copy these values — you'll need them in the next step.
+
+
+STEP 5 — Set Up Cloudinary
+----------------------------------------------------------------
+1. Go to https://cloudinary.com and sign up for a free account
+2. After logging in, go to your Dashboard
+3. Copy your "Cloud Name" from the top of the dashboard
+4. To get an Upload Preset:
+   - Go to Settings → Upload
+   - Scroll down to "Upload presets"
+   - Click "Add upload preset"
+   - Set "Signing mode" to "Unsigned"
+   - Give it a name and click "Save"
+   - Copy the preset name
+
+
+STEP 6 — Create Frontend .env File
+----------------------------------------------------------------
+Inside the /frontend folder, create a file named .env.local
+and fill in the values you collected above:
+
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+      NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_upload_preset_name
+
+      NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
+      NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+      NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+      NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+      NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+      NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id
+
+      NEXT_PUBLIC_URL_DETECT=http://localhost:8000/detect
+      NEXT_PUBLIC_URL_CREATE_EMBEDDING=http://localhost:8000/create-embedding
+
+
+STEP 7 — Run the Frontend
+----------------------------------------------------------------
+      npm run dev
+
+The app will be running at http://localhost:3000
+
+
+================================================================
+  PART 2: BACKEND SETUP (Python)
+================================================================
+
+Open a NEW terminal tab/window for the backend.
+
+
+STEP 1 — Install Python
+----------------------------------------------------------------
+1. Go to https://www.python.org/downloads
+2. Download Python 3.10 or higher
+3. During installation, check "Add Python to PATH"
+4. Verify installation:
+      python --version
+
+
+STEP 2 — Create and Activate a Virtual Environment
+----------------------------------------------------------------
+Navigate to the backend folder:
+
+      cd backend
+
+Create a virtual environment:
+
+      python -m venv .venv
+
+Activate it:
+
+   On Windows (PowerShell):
+      .venv\Scripts\Activate.ps1
+
+   On Windows (Command Prompt):
+      .venv\Scripts\activate.bat
+
+   On Mac/Linux:
+      source .venv/bin/activate
+
+You should see (.venv) appear in your terminal prompt.
+
+
+STEP 3 — Install Dependencies
+----------------------------------------------------------------
+      pip install -r requirements.txt
+
+
+STEP 4 — Get Gemini API Key
+----------------------------------------------------------------
+1. Go to https://aistudio.google.com
+2. Sign in with your Google account
+3. Click "Get API Key" → "Create API key"
+4. Copy the generated API key
+
+
+STEP 5 — Get Firebase Service Account Key
+----------------------------------------------------------------
+1. Go to https://console.firebase.google.com
+2. Open your project → Click gear icon ⚙ → "Project settings"
+3. Go to the "Service accounts" tab
+4. Click "Generate new private key"
+5. Click "Generate key" — a JSON file will be downloaded
+6. Rename it to: serviceAccountKey.json
+7. Place it in the /backend/ root folder
+
+   ⚠ IMPORTANT: Never commit this file to GitHub!
+      Make sure backend/serviceAccountKey.json is in your .gitignore
+
+
+STEP 6 — Create Backend .env File
+----------------------------------------------------------------
+Inside the /backend folder, create a file named .env and add:
+
+      GEMINI_API_KEY=your_gemini_api_key
+
+
+STEP 7 — Run the Backend
+----------------------------------------------------------------
+Make sure your virtual environment is still active, then:
+
+      python main.py
+
+The backend will be running at http://localhost:8000
+
+
+================================================================
+  PART 3: USING THE APPLICATION
+================================================================
+
+Once both the frontend and backend servers are running, you may
+begin exploring the full capabilities of GuardianAI.
+
+
+STEP 1 — Register Your Digital Footprint
+----------------------------------------------------------------
+This step establishes ownership of your original media asset
+within the GuardianAI system.
+
+1. Navigate to http://localhost:3000 in your browser.
+2. Create an account by completing the Sign Up process.
+3. Upon successful authentication, you will be directed to the
+   main dashboard. Locate the "Media Assets" option in the
+   left-hand sidebar.
+4. Click "Upload New Asset" and select the original image you
+   wish to protect. This registers the asset's unique embedding
+   in the system, serving as your digital fingerprint.
+
+
+STEP 2 — Simulate Unauthorized Usage
+----------------------------------------------------------------
+This step demonstrates how GuardianAI detects duplicate or
+derivative media across a social media environment.
+
+1. In the left-hand sidebar, navigate to "Simulator".
+2. You will be presented with a hypothetical social media
+   platform called "Chirp", which serves as the test dataset
+   environment.
+3. To simulate unauthorized uploads, open one or more
+   incognito/private browser windows and sign up with
+   different accounts on the same Chirp platform.
+4. From these alternate accounts, upload images that are
+   duplicates or derivatives of your original asset — this
+   includes cropped, color-adjusted, or otherwise edited
+   versions of the same image.
+
+
+STEP 3 — Scan for Infringements
+----------------------------------------------------------------
+This step invokes GuardianAI's detection pipeline to identify
+all unauthorized instances of your registered asset.
+
+1. Return to your primary account and navigate to the
+   "Media Assets" tab in the left-hand sidebar.
+2. Select the asset you registered in Step 1.
+3. Click the "Scan" button to initiate the detection process.
+4. GuardianAI will analyze all media present in the Chirp
+   dataset and surface any images that match or closely
+   resemble your registered asset — including manipulated
+   or partially altered versions.
+5. The results will display all flagged uploads, along with
+   the associated account information, providing a clear
+   overview of potential copyright violations.
+
+
+================================================================
+  QUICK REFERENCE — RUNNING THE PROJECT
+================================================================
+
+Terminal 1 (Frontend):
+      cd frontend
+      npm run dev          →  http://localhost:3000
+
+Terminal 2 (Backend):
+      cd backend
+      .venv\Scripts\Activate.ps1    (Windows)
+      source .venv/bin/activate     (Mac/Linux)
+      python main.py       →  http://localhost:8000
+
+================================================================
